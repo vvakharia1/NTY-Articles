@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>New York Times Search</title>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   <header>
+           <i class="fa fa-newspaper-o"></i> New York Times Search
+   </header>
+
+   <form>
+           <div class="card my-4">
+           <h5 class="card-header"><i class="fa fa-table" aria-hidden="true"></i> Search Parameters</h5>
+           <div class="form-group mx-2 my-2">
+             <label for="inputSearch">Search Term</label>
+             <input class="form-control" id="inputSearch" placeholder="Search Term">
+           </div>
+
+           <div class="form-group  mx-2 my-2">
+             <label for="records">Number of Records to Retrieve: </label>
+             <select class="form-control" id="records">
+               <option>1</option>
+               <option>5</option>
+               <option>10</option>
+             </select>
+           </div>
+
+           <div class="form-group mx-2 my-2">
+             <label for="startYear">Start Year (Optional):</label>
+             <input type="search" class="form-control" id="startYear" placeholder="Year">
+           </div>
+           <div class="form-group mx-2 my-2">
+             <label for="endYear">End Year (Optional):</label>
+             <input class="form-control" id="endYear" placeholder="Year ">
+           </div>
+           <div class="form-group-inline mx-2 my-2">
+           <button type="submit" class="btn btn-link" id="search"><i class="fa fa-search" aria-hidden="true"></i> Search:</button>
+           <button type="submit" class="btn btn-link" id="clear"><i class="fa fa-trash" aria-hidden="true"></i> Clear Results:</button>
+           </div>
+         </form>
+       </div>
+
+         <div class="card my-4">
+               <h5 class="card-header"><i class="fa fa-table" aria-hidden="true"></i> Top Articles</h5>
+               <div class="card-body" id="articles">
+                   <!--search results will go here-->
+               </div>
+         </div>
+
+         <div class="footer">Made with lots and lots of <i class="fa fa-heart" aria-hidden="true"></i>
+         </div>
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+   
+   <script>
+   $("#search").on("click", function(event) {
+    event.preventDefault();
+    var a = $("#inputSearch").val();
+  //Build queryURL
+  var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + a + "&api-key=q0QaBGUxVv4d7TpDGWSC2SHRQBKhlxWk";
+  //makes request from API to grab info
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  })
+
+  //Once we get a response back, then run this function
+    .then(function(response) {
+
+      var inputDiv = $("<div class='inputdiv'>");
+
+        for (var i = 0; i < response.response.docs.length; i++) {
+        var headline = response.response.docs[i].headline.main;
+
+        var h1 = $("<h1>").text(headline);
+        inputDiv.append(h1);
+
+        var snippet = response.response.docs[i].snippet;
+
+        var byline = response.response.docs[i].byline.original;
+
+        var pOne = $("<p>").text(byline);
+        inputDiv.append(pOne);
+
+        $("#articles").prepend(inputDiv);
+
+        var date = response.response.docs[i].pub_date.slice(0, 4);
+        console.log(parseInt(date));
+        console.log(response.response.docs[i].web_url);
+        // console.log(date);
+        // parse for year dates
+        // searching on multiple terms
+        
+          
+        }
+    });
+});
+
+</script>
+</body>
+</html>

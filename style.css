@@ -1,0 +1,40 @@
+body {
+    width: 80%;
+    margin: auto;
+
+}
+    header {
+    background-color: #21325A;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+}
+
+
+.inputDiv {
+    color: #2C3E4F;
+    border-radius: 4px;
+    background-color: #ECF0F1;
+    padding: 5px;
+    margin-left: 35px;
+  }
+  
+  
+h1 {
+    color: #2C3E4F;
+    font-size: 26px;
+  }
+
+.footer {
+    text-align: center;
+    margin-bottom: 20px;
+
+}
+
